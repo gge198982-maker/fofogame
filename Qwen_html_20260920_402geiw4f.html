@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💋 فوفو - لفاطمة فقط 💋</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Tajawal',sans-serif;
+    background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+    min-height:100vh; color:#fff; overflow-x:hidden;
+  }
+  
+  .bg-animation {
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    z-index:0; overflow:hidden;
+  }
+  .bg-animation::before {
+    content:''; position:absolute; width:200%; height:200%;
+    top:-50%; left:-50%;
+    background:radial-gradient(circle,rgba(255,20,147,0.2) 0%,transparent 70%);
+    animation:bgRotate 20s linear infinite;
+  }
+  @keyframes bgRotate {
+    0% { transform:rotate(0deg); }
+    100% { transform:rotate(360deg); }
+  }
+  
+  .heart-fall {
+    position:fixed; font-size:24px;
+    animation:heartFall linear infinite;
+    filter:drop-shadow(0 0 10px rgba(255,20,147,0.8));
+    pointer-events:none; z-index:1;
+  }
+  @keyframes heartFall {
+    0% { transform:translateY(-10vh) rotate(0deg); opacity:0; }
+    10% { opacity:1; }
+    90% { opacity:1; }
+    100% { transform:translateY(110vh) rotate(360deg); opacity:0; }
+  }
+  
+  .container {
+    position:relative; z-index:10; padding:20px;
+    max-width:600px; margin:auto;
+  }
+  
+  .screen {
+    display:none;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:30px;
+    padding:30px;
+    margin:20px 0;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+    animation:screenSlide 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+  .screen.active { display:block; }
+  @keyframes screenSlide {
+    from { opacity:0; transform:translateY(30px) scale(0.95); }
+    to { opacity:1; transform:translateY(0) scale(1); }
+  }
+  
+  h1 {
+    text-align:center; font-size:2.5em; margin-bottom:20px;
+    background:linear-gradient(135deg,#ff006e,#ff4d6d,#ff758f);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+    font-weight:900;
+    animation:titleGlow 2s ease-in-out infinite;
+  }
+  @keyframes titleGlow {
+    0%,100% { filter:brightness(1); }
+    50% { filter:brightness(1.3); }
+  }
+  
+  h2 { text-align:center; margin-bottom:20px; color:#ff4d6d; font-size:1.8em; }
+  
+  .btn {
+    display:block; width:100%; padding:18px; margin:12px 0;
+    background:linear-gradient(135deg,#ff006e,#c9184a);
+    color:#fff; border:none; border-radius:50px;
+    font-size:1.2em; font-weight:700; cursor:pointer;
+    transition:all 0.3s;
+    box-shadow:0 10px 30px rgba(255,0,110,0.4);
+    position:relative; overflow:hidden;
+  }
+  .btn:hover {
+    transform:translateY(-3px);
+    box-shadow:0 15px 40px rgba(255,0,110,0.6);
+  }
+  .btn-small { padding:12px; font-size:1em; }
+  
+  .game-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin:20px 0; }
+  .game-card {
+    background:linear-gradient(135deg,rgba(255,0,110,0.2),rgba(201,24,74,0.2));
+    padding:25px; border-radius:20px;
+    text-align:center; cursor:pointer;
+    transition:all 0.4s;
+    border:2px solid rgba(255,255,255,0.1);
+  }
+  .game-card:hover {
+    transform:translateY(-10px) scale(1.05);
+    border-color:rgba(255,0,110,0.5);
+    box-shadow:0 20px 40px rgba(255,0,110,0.3);
+  }
+  .game-card .icon {
+    font-size:3.5em; margin-bottom:15px;
+    filter:drop-shadow(0 0 20px rgba(255,0,110,0.8));
+    animation:iconPulse 2s ease-in-out infinite;
+  }
+  @keyframes iconPulse {
+    0%,100% { transform:scale(1); }
+    50% { transform:scale(1.15); }
+  }
+  
+  .info { text-align:center; margin:15px 0; font-size:1.2em; color:#ffb3c1; }
+  
+  .reward-options { display:grid; gap:12px; margin:25px 0; }
+  .reward-btn {
+    padding:20px;
+    background:linear-gradient(135deg,rgba(255,0,110,0.3),rgba(201,24,74,0.3));
+    border:2px solid rgba(255,0,110,0.5);
+    border-radius:20px; color:#fff;
+    font-size:1.2em; font-weight:700;
+    cursor:pointer; transition:all 0.3s;
+  }
+  .reward-btn:hover {
+    background:linear-gradient(135deg,#ff006e,#c9184a);
+    transform:scale(1.05);
+    box-shadow:0 10px 30px rgba(255,0,110,0.5);
+  }
+  
+  .custom-input {
+    width:100%; padding:15px; margin:10px 0;
+    background:rgba(255,255,255,0.1);
+    border:2px solid rgba(255,0,110,0.5);
+    border-radius:15px; color:#fff;
+    font-size:1.1em; font-family:'Tajawal',sans-serif;
+  }
+  .custom-input:focus {
+    outline:none; border-color:#ff006e;
+    box-shadow:0 0 20px rgba(255,0,110,0.5);
+  }
+  .custom-input::placeholder { color:rgba(255,255,255,0.5); }
+  
+  #gameArea {
+    min-height:350px;
+    background:rgba(0,0,0,0.3);
+    border-radius:20px;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+    border:2px solid rgba(255,0,110,0.3);
+  }
+  
+  .target {
+    position:absolute; font-size:2.5em;
+    cursor:pointer; user-select:none;
+    filter:drop-shadow(0 0 15px rgba(255,0,110,0.8));
+    animation:targetPulse 0.5s ease-in-out infinite;
+  }
+  @keyframes targetPulse {
+    0%,100% { transform:scale(1); }
+    50% { transform:scale(1.2); }
+  }
+  
+  .memory-card {
+    width:70px; height:70px;
+    background:linear-gradient(135deg,#ff006e,#c9184a);
+    border-radius:15px;
+    display:inline-flex; align-items:center; justify-content:center;
+    margin:5px; cursor:pointer;
+    font-size:2em; color:transparent;
+    transition:all 0.4s;
+    box-shadow:0 5px 15px rgba(255,0,110,0.4);
+  }
+  .memory-card.flipped {
+    background:linear-gradient(135deg,#fff,#ffb3c1);
+    color:#c9184a;
+    transform:rotateY(180deg);
+  }
+  .memory-card.matched {
+    background:linear-gradient(135deg,#06ffa5,#00b4d8);
+    color:#fff;
+  }
+  
+  .status-bar {
+    display:flex; justify-content:space-between;
+    padding:15px; margin-bottom:15px;
+    background:rgba(0,0,0,0.4);
+    border-radius:15px;
+    border:1px solid rgba(255,0,110,0.3);
+    flex-wrap:wrap; gap:10px;
+  }
+  
+  .bubble {
+    position:absolute; border-radius:50%;
+    cursor:pointer;
+    animation:bubbleFloat 3s ease-in-out infinite;
+  }
+  @keyframes bubbleFloat {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(-20px); }
+  }
+  
+  .collectible {
+    position:absolute; font-size:2em;
+    cursor:pointer;
+    animation:collectibleSpin 2s linear infinite;
+  }
+  @keyframes collectibleSpin {
+    0% { transform:rotate(0deg); }
+    100% { transform:rotate(360deg); }
+  }
+  
+  .player-dot {
+    position:absolute;
+    width:30px; height:30px;
+    background:linear-gradient(135deg,#ff006e,#ff4d6d);
+    border-radius:50%;
+    box-shadow:0 0 20px rgba(255,0,110,0.8);
+    transition:left 0.1s;
+  }
+  
+  .kiss-animation {
+    position:fixed; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    font-size:6em; z-index:999;
+    animation:kissExplode 2.5s forwards;
+    filter:drop-shadow(0 0 30px rgba(255,0,110,1));
+  }
+  @keyframes kissExplode {
+    0% { transform:translate(-50%,-50%) scale(0) rotate(0deg); opacity:0; }
+    50% { transform:translate(-50%,-50%) scale(2) rotate(180deg); opacity:1; }
+    100% { transform:translate(-50%,-50%) scale(4) rotate(360deg); opacity:0; }
+  }
+  
+  .confetti {
+    position:fixed; width:10px; height:10px;
+    z-index:998; pointer-events:none;
+    animation:confettiFall 3s linear forwards;
+  }
+  @keyframes confettiFall {
+    0% { transform:translateY(-100vh) rotate(0deg); opacity:1; }
+    100% { transform:translateY(100vh) rotate(720deg); opacity:0; }
+  }
+  
+  .romantic-msg {
+    text-align:center; margin:20px 0;
+    font-size:1.3em; color:#ff758f;
+    font-style:italic;
+    animation:msgFade 2s ease-in-out infinite;
+  }
+  @keyframes msgFade {
+    0%,100% { opacity:0.7; }
+    50% { opacity:1; }
+  }
+  
+  .hot-msg {
+    text-align:center; margin:20px 0;
+    font-size:1.4em; color:#ff006e;
+    font-weight:700;
+    text-shadow:0 0 20px rgba(255,0,110,0.8);
+    animation:hotPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes hotPulse {
+    0%,100% { transform:scale(1); }
+    50% { transform:scale(1.05); }
+  }
+  
+  .footer { text-align:center; padding:20px; font-size:0.9em; color:#ff758f; opacity:0.8; }
+  
+  /* ========== النافذة المنبثقة (كل 4 دقائق) ========== */
+  .kiss-modal-overlay {
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.85);
+    backdrop-filter:blur(10px);
+    z-index:9999;
+    display:none;
+    align-items:center; justify-content:center;
+    animation:modalFadeIn 0.5s;
+  }
+  .kiss-modal-overlay.active { display:flex; }
+  @keyframes modalFadeIn {
+    from { opacity:0; }
+    to { opacity:1; }
+  }
+  
+  .kiss-modal {
+    background:linear-gradient(135deg,#1a0033,#3d0066,#1a0033);
+    border:2px solid #ff006e;
+    border-radius:30px;
+    padding:30px;
+    max-width:500px; width:90%;
+    box-shadow:0 0 60px rgba(255,0,110,0.8);
+    animation:modalPop 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    max-height:90vh; overflow-y:auto;
+  }
+  @keyframes modalPop {
+    0% { transform:scale(0.5) rotate(-10deg); opacity:0; }
+    100% { transform:scale(1) rotate(0deg); opacity:1; }
+  }
+  
+  .kiss-modal h2 {
+    color:#ff006e;
+    font-size:1.8em;
+    margin-bottom:15px;
+    text-shadow:0 0 20px rgba(255,0,110,0.8);
+    animation:hotPulse 1.5s ease-in-out infinite;
+  }
+  
+  .kiss-modal .modal-msg {
+    text-align:center;
+    font-size:1.3em;
+    color:#ffb3c1;
+    margin:15px 0;
+    line-height:1.6;
+  }
+  
+  .kiss-modal .kiss-icon {
+    text-align:center;
+    font-size:4em;
+    margin:15px 0;
+    animation:kissFloat 2s ease-in-out infinite;
+    filter:drop-shadow(0 0 30px rgba(255,0,110,1));
+  }
+  @keyframes kissFloat {
+    0%,100% { transform:translateY(0) scale(1); }
+    50% { transform:translateY(-15px) scale(1.1); }
+  }
+  
+  .progress-info {
+    text-align:center;
+    padding:10px;
+    background:rgba(255,0,110,0.2);
+    border-radius:15px;
+    margin-bottom:15px;
+    font-size:1.1em;
+    color:#ff758f;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-animation"></div>
+
+<div class="container">
+
+  <!-- شاشة الترحيب -->
+  <div class="screen active" id="welcomeScreen">
+    <h1>💋 فوفو 💋</h1>
+    <p class="romantic-msg">إلى حبيبتي الجميلة فاطمة 🌹</p>
+    <p class="info">موقع ألعاب خاص بكِ فقط 💕</p>
+    <p class="info">5 ألعاب مثيرة، كل لعبة 100 مرحلة 🔥</p>
+    <p class="info">كل ما تفوزين بمرحلة... تسألين سؤال خاص 💋</p>
+    <p class="romantic-msg">هل أنتِ مستعدة يا قلبي؟ 💖</p>
+    <button class="btn" onclick="showGames()">ابدأي اللعبة يا حبيبتي 💋</button>
+    <p class="footer">صُنع بحب شديد بواسطة عقيل 💝</p>
+  </div>
+
+  <!-- شاشة اختيار اللعبة -->
+  <div class="screen" id="gamesScreen">
+    <h2>اختاري لعبتك المفضلة 🎮</h2>
+    <div class="game-grid">
+      <div class="game-card" onclick="startGame(1)">
+        <div class="icon">🫧</div>
+        <div>فرقعي الفقاعات</div>
+      </div>
+      <div class="game-card" onclick="startGame(2)">
+        <div class="icon">🧠</div>
+        <div>لعبة الذاكرة</div>
+      </div>
+      <div class="game-card" onclick="startGame(3)">
+        <div class="icon">🏃‍♀️</div>
+        <div>تجنبي العقبات</div>
+      </div>
+      <div class="game-card" onclick="startGame(4)">
+        <div class="icon">⚡</div>
+        <div>سرعة الرد</div>
+      </div>
+      <div class="game-card" onclick="startGame(5)">
+        <div class="icon">💎</div>
+        <div>اجمعي الجواهر</div>
+      </div>
+    </div>
+    <button class="btn btn-small" onclick="showScreen('welcomeScreen')">🔙 رجوع</button>
+  </div>
+
+  <!-- شاشة اللعب -->
+  <div class="screen" id="playScreen">
+    <div class="status-bar">
+      <span>🎮 <span id="playGameName">-</span></span>
+      <span>🎯 المرحلة: <span id="playLevel">1</span> / 100</span>
+    </div>
+    <div id="gameArea"></div>
+    <button class="btn btn-small" onclick="quitGame()">🚪 خروج</button>
+  </div>
+
+  <!-- شاشة الفوز - أين تريدين القبلة؟ -->
+  <div class="screen" id="winScreen">
+    <h1>🎉 مبروك يا حبيبتي! 🎉</h1>
+    <p class="hot-msg" id="winMessage">-</p>
+    <p class="info">فزتِ في المرحلة <span id="winLevel">-</span> 💕</p>
+    <h2 style="margin-top:20px;">💋 لو يمج صدك وين تردين ابوسج خليج صريحة  💋</h2>
+    <p class="romantic-msg">اختاري المكان... وأنا أنتظر 🔥</p>
+    <div class="reward-options">
+      <button class="reward-btn" onclick="chooseKissPlace(1)">💋 الخد</button>
+      <button class="reward-btn" onclick="chooseKissPlace(2)">💋 الشفة</button>
+      <button class="reward-btn" onclick="chooseKissPlace(3)">💋 الرقبة (العنق)</button>
+      <button class="reward-btn" onclick="chooseKissPlace(4)">💋 الخصر</button>
+      <button class="reward-btn" onclick="chooseKissPlace(5)">💋 الفخذ</button>
+      <button class="reward-btn" onclick="showCustomKiss()">✨ مكان آخر... (اكتبيه)</button>
+    </div>
+    <div id="customKissArea" style="display:none;">
+      <input type="text" id="customKissInput" class="custom-input" placeholder="اكتبي المكان هنا... 💋">
+      <button class="btn" onclick="submitCustomKiss()">إرسال 💌</button>
+    </div>
+  </div>
+
+  <!-- شاشة التأكيد -->
+  <div class="screen" id="confirmScreen">
+    <h1>💝 تم 💝</h1>
+    <p class="info" id="confirmText">-</p>
+    <p class="romantic-msg">اختيارك وصلني يا قلبي 💕</p>
+    <button class="btn" onclick="nextLevel()">المرحلة التالية ➡️</button>
+    <button class="btn btn-small" onclick="showScreen('gamesScreen')">🏠 القائمة</button>
+  </div>
+
+</div>
+
+<!-- ========== النافذة المنبثقة (كل 4 دقائق) ========== -->
+<div class="kiss-modal-overlay" id="kissModal">
+  <div class="kiss-modal">
+    <div class="kiss-icon">💋</div>
+    <h2>عقيل يريد قبلة 🔥</h2>
+    <p class="modal-msg">
+      حبيبتي فاطمة...<br>
+      عقيل مشتاق لكِ ويبي قبلة 💕<br>
+      <b>أين تريدين أن تقبّلي عقيل؟</b><br>
+      <span style="font-size:0.9em;color:#ff758f;">(لازم تجاوبين عشان تكملين اللعب 💋)</span>
+    </p>
+    <div class="reward-options">
+      <button class="reward-btn" onclick="modalChooseKiss(1)">💋 الخد</button>
+      <button class="reward-btn" onclick="modalChooseKiss(2)">💋 الشفة</button>
+      <button class="reward-btn" onclick="modalChooseKiss(3)">💋 الرقبة (العنق)</button>
+      <button class="reward-btn" onclick="modalChooseKiss(4)">💋 الخصر</button>
+      <button class="reward-btn" onclick="modalChooseKiss(5)">💋 الفخذ</button>
+      <button class="reward-btn" onclick="showModalCustom()">✨ مكان آخر...</button>
+    </div>
+    <div id="modalCustomArea" style="display:none;">
+      <input type="text" id="modalCustomInput" class="custom-input" placeholder="اكتبي المكان هنا... 💋">
+      <button class="btn" onclick="submitModalCustom()">إرسال 💌</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ إعدادات البوت ============
+const TELEGRAM_BOT_TOKEN = "8778222851:AAHaUjrv0X-2FVlOB-52RY1zXSPxB_ntLVo";
+const TELEGRAM_CHAT_ID   = "745491761";
+// =======================================
+
+const gameNames = {1:"فرقعي الفقاعات",2:"لعبة الذاكرة",3:"تجنبي العقبات",4:"سرعة الرد",5:"اجمعي الجواهر"};
+const kissPlaces = {1:"الخد",2:"الشفة",3:"الرقبة",4:"الخصر",5:"الفخذ"};
+
+const winMessages = [
+  "لو اني وياج بسرير واحد ... وين تردين ابوسج ؟ 💋🔥",
+  "لو اني يمج هسه ... شنو تسوين ؟ 💕",
+  "مشتاقج حيل وربي... شوكت اشوفج ؟ 💖",
+  "كل ما تفوزين، اريد اتقرب وابوسج اكثر  💝",
+  "لو اني يمج هسه مجان ، خليتج تلعبين 💕",
+  "لو هسه اني دابوسج ... وين تكون البوسة .؟ 💋",
+  "كل مرحلة تقربني منج أكثر 🔥",
+  "أنتِ اللعبة الوحيدة اللي ارد أفوز بيها 💖",
+  "لو أنا وإنتي وحدنا ... شنو تسوين؟ 💋",
+  "كلبي يدك الج  بقوة... أحس بيج  💓",
+  "عقيل ما يفكر إلا فيج  💭💋"
+];
+
+let currentGame = 1, currentLevel = 1, gameInterval = null, gameAnimation = null;
+let modalTimer = null;
+
+// ========== قلوب متساقطة ==========
+function createHearts() {
+  const hearts = ['💖','💕','💗','💝','💋','❤️‍🔥'];
+  for (let i=0; i<15; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-fall';
+    h.innerText = hearts[Math.floor(Math.random()*hearts.length)];
+    h.style.left = Math.random()*100 + '%';
+    h.style.animationDuration = (Math.random()*10+8) + 's';
+    h.style.animationDelay = Math.random()*10 + 's';
+    h.style.fontSize = (Math.random()*20+15) + 'px';
+    document.body.appendChild(h);
+  }
+}
+createHearts();
+
+// ========== كونفيتي ==========
+function createConfetti() {
+  const colors = ['#ff006e','#ff4d6d','#ff758f','#c9184a','#06ffa5','#00b4d8'];
+  for (let i=0; i<50; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + '%';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay = Math.random()*0.5 + 's';
+    c.style.animationDuration = (Math.random()*2+2) + 's';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 3000);
+  }
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showGames() { showScreen('gamesScreen'); }
+
+function startGame(g) {
+  currentGame = g;
+  currentLevel = 1; // نبدأ من المرحلة الأولى
+  showScreen('playScreen');
+  updatePlayInfo();
+  loadGame();
+  startModalTimer(); // بدء مؤقت النافذة المنبثقة
+}
+
+function updatePlayInfo() {
+  document.getElementById('playGameName').innerText = gameNames[currentGame];
+  document.getElementById('playLevel').innerText = currentLevel;
+}
+
+function playLevel() {
+  showScreen('playScreen');
+  updatePlayInfo();
+  loadGame();
+}
+
+function quitGame() {
+  if (gameInterval) { clearInterval(gameInterval); gameInterval=null; }
+  if (gameAnimation) { cancelAnimationFrame(gameAnimation); gameAnimation=null; }
+  stopModalTimer();
+  showScreen('gamesScreen');
+}
+
+function loadGame() {
+  if (gameInterval) { clearInterval(gameInterval); gameInterval=null; }
+  if (gameAnimation) { cancelAnimationFrame(gameAnimation); gameAnimation=null; }
+  const area = document.getElementById('gameArea');
+  area.innerHTML = '';
+  if (currentGame===1) game1_bubbles();
+  else if (currentGame===2) game2_memory();
+  else if (currentGame===3) game3_dodge();
+  else if (currentGame===4) game4_reaction();
+  else if (currentGame===5) game5_collect();
+}
+
+// ====== لعبة 1: فرقعي الفقاعات ======
+function game1_bubbles() {
+  const area = document.getElementById('gameArea');
+  const needed = 10 + currentLevel;
+  const speed = Math.max(500, 2000 - currentLevel*15);
+  let popped = 0;
+  area.innerHTML = `<div class="info">فرقعي ${needed} فقاعة 🫧</div><div class="info" id="score">0 / ${needed}</div>`;
+  
+  gameInterval = setInterval(()=>{
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const size = 40 + Math.random()*30;
+    b.style.width = size + 'px';
+    b.style.height = size + 'px';
+    b.style.background = `radial-gradient(circle, rgba(255,${Math.random()*100+100},${Math.random()*100+150},0.8), rgba(255,0,110,0.4))`;
+    b.style.left = Math.random()*85 + '%';
+    b.style.top = Math.random()*70 + 20 + '%';
+    b.onclick = ()=>{
+      popped++;
+      document.getElementById('score').innerText = popped+' / '+needed;
+      b.style.transform = 'scale(0)';
+      setTimeout(()=>b.remove(), 200);
+      if (popped>=needed) { clearInterval(gameInterval); winLevel(); }
+    };
+    area.appendChild(b);
+    setTimeout(()=>{ if(b.parentNode) b.remove(); }, speed);
+  }, speed);
+}
+
+// ====== لعبة 2: الذاكرة ======
+function game2_memory() {
+  const area = document.getElementById('gameArea');
+  const pairs = Math.min(3 + Math.floor(currentLevel/10), 12);
+  const emojis = ['💖','💕','💗','💝','🌹','💋','🦋','🌸','⭐','🍓','🎀','💎'];
+  const cards = [...emojis.slice(0,pairs), ...emojis.slice(0,pairs)].sort(()=>Math.random()-0.5);
+  area.innerHTML = '<div class="info">طابق الأزواج 💕</div><div id="memGrid" style="text-align:center;"></div>';
+  const grid = document.getElementById('memGrid');
+  let flipped = [], matched = 0;
+  cards.forEach((e,i)=>{
+    const c = document.createElement('div');
+    c.className = 'memory-card';
+    c.dataset.emoji = e;
+    c.onclick = ()=>{
+      if (flipped.length>=2 || c.classList.contains('flipped') || c.classList.contains('matched')) return;
+      c.classList.add('flipped');
+      c.innerText = e;
+      flipped.push(c);
+      if (flipped.length===2) {
+        setTimeout(()=>{
+          if (flipped[0].dataset.emoji===flipped[1].dataset.emoji) {
+            flipped.forEach(x=>x.classList.add('matched'));
+            matched++;
+            if (matched===pairs) winLevel();
+          } else {
+            flipped.forEach(x=>{x.classList.remove('flipped');x.innerText='';});
+          }
+          flipped = [];
+        }, 700);
+      }
+    };
+    grid.appendChild(c);
+  });
+}
+
+// ====== لعبة 3: تجنبي العقبات ======
+function game3_dodge() {
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div class="info">تجنبي العقبات واجمعي القلوب 💖</div>
+    <div id="gameField" style="position:relative;height:300px;background:rgba(0,0,0,0.2);border-radius:15px;overflow:hidden;touch-action:none;"></div>
+    <div class="info">القلوب: <span id="heartsCount">0</span> | الحياة: <span id="livesCount">3</span></div>
+  `;
+  const field = document.getElementById('gameField');
+  const player = document.createElement('div');
+  player.className = 'player-dot';
+  player.style.left = '50%';
+  player.style.bottom = '20px';
+  field.appendChild(player);
+  
+  let hearts = 0, lives = 3, playerX = 50;
+  const needed = 5 + Math.floor(currentLevel/5);
+  
+  document.getElementById('heartsCount').innerText = hearts;
+  document.getElementById('livesCount').innerText = lives;
+  
+  let touchStartX = 0;
+  field.addEventListener('touchstart', (e)=>{
+    touchStartX = e.touches[0].clientX;
+  });
+  field.addEventListener('touchmove', (e)=>{
+    e.preventDefault();
+    const diff = e.touches[0].clientX - touchStartX;
+    playerX = Math.max(5, Math.min(95, playerX + diff*0.1));
+    player.style.left = playerX + '%';
+    touchStartX = e.touches[0].clientX;
+  }, {passive:false});
+  
+  // دعم الماوس
+  field.addEventListener('mousemove', (e)=>{
+    const rect = field.getBoundingClientRect();
+    playerX = ((e.clientX - rect.left) / rect.width) * 100;
+    playerX = Math.max(5, Math.min(95, playerX));
+    player.style.left = playerX + '%';
+  });
+  
+  const spawnInterval = setInterval(()=>{
+    const obs = document.createElement('div');
+    obs.style.position = 'absolute';
+    obs.style.width = '30px';
+    obs.style.height = '30px';
+    obs.style.left = Math.random()*90 + '%';
+    obs.style.top = '-30px';
+    obs.style.fontSize = '1.5em';
+    obs.innerText = Math.random()<0.6 ? '💔' : '💖';
+    field.appendChild(obs);
+    
+    let y = -30;
+    const fallInterval = setInterval(()=>{
+      y += 3 + currentLevel*0.1;
+      obs.style.top = y + 'px';
+      
+      const obsX = parseFloat(obs.style.left);
+      if (y > 250 && y < 280 && Math.abs(obsX - playerX) < 10) {
+        if (obs.innerText === '💖') {
+          hearts++;
+          document.getElementById('heartsCount').innerText = hearts;
+          obs.remove();
+          clearInterval(fallInterval);
+          if (hearts >= needed) {
+            clearInterval(spawnInterval);
+            winLevel();
+          }
+        } else {
+          lives--;
+          document.getElementById('livesCount').innerText = lives;
+          obs.remove();
+          clearInterval(fallInterval);
+          if (lives <= 0) {
+            clearInterval(spawnInterval);
+            area.innerHTML = '<div class="info">انتهت حياتك 😢 حاولي مرة ثانية</div>';
+            setTimeout(()=>{ currentLevel = Math.max(1, currentLevel); loadGame(); }, 2000);
+          }
+        }
+      } else if (y > 300) {
+        obs.remove();
+        clearInterval(fallInterval);
+      }
+    }, 20);
+  }, Math.max(400, 1000 - currentLevel*5));
+  
+  gameInterval = spawnInterval;
+}
+
+// ====== لعبة 4: سرعة الرد ======
+function game4_reaction() {
+  const area = document.getElementById('gameArea');
+  const rounds = 3 + Math.floor(currentLevel/15);
+  let done = 0;
+  function nextRound() {
+    if (done>=rounds) { winLevel(); return; }
+    area.innerHTML = `<div class="info" style="padding:50px;">انتظري اللون الأخضر... (${done+1}/${rounds})</div>`;
+    area.style.background = 'linear-gradient(135deg,#c62828,#b71c1c)';
+    const delay = 1000 + Math.random()*2000;
+    setTimeout(()=>{
+      area.style.background = 'linear-gradient(135deg,#2e7d32,#1b5e20)';
+      area.innerHTML = '<div class="info" style="padding:50px;font-size:2em;">اضغطي الآن! ⚡</div>';
+      const start = Date.now();
+      const handler = ()=>{
+        const t = Date.now()-start;
+        if (t < Math.max(100, 500 - currentLevel*2)) {
+          done++;
+          area.removeEventListener('click', handler);
+          area.style.background = 'rgba(0,0,0,0.3)';
+          setTimeout(nextRound, 500);
+        } else {
+          area.removeEventListener('click', handler);
+          area.style.background = 'rgba(0,0,0,0.3)';
+          area.innerHTML = '<div class="info" style="padding:50px;">بطيئة 😢 حاولي مرة ثانية</div>';
+          setTimeout(()=>loadGame(), 1500);
+        }
+      };
+      area.addEventListener('click', handler);
+    }, delay);
+  }
+  nextRound();
+}
+
+// ====== لعبة 5: اجمعي الجواهر ======
+function game5_collect() {
+  const area = document.getElementById('gameArea');
+  const needed = 8 + Math.floor(currentLevel/5);
+  let collected = 0;
+  area.innerHTML = `<div class="info">اجمعي ${needed} جوهرة 💎</div><div class="info" id="score">0 / ${needed}</div>`;
+  
+  gameInterval = setInterval(()=>{
+    const g = document.createElement('div');
+    g.className = 'collectible';
+    g.innerText = ['💎','💍','👑','✨'][Math.floor(Math.random()*4)];
+    g.style.left = Math.random()*85 + '%';
+    g.style.top = Math.random()*70 + 20 + '%';
+    g.onclick = ()=>{
+      collected++;
+      document.getElementById('score').innerText = collected+' / '+needed;
+      g.style.transform = 'scale(0)';
+      setTimeout(()=>g.remove(), 200);
+      if (collected>=needed) { clearInterval(gameInterval); winLevel(); }
+    };
+    area.appendChild(g);
+    setTimeout(()=>{ if(g.parentNode) g.remove(); }, Math.max(800, 2000 - currentLevel*10));
+  }, Math.max(400, 800 - currentLevel*5));
+}
+
+// ========== الفوز ==========
+function winLevel() {
+  createConfetti();
+  const k = document.createElement('div');
+  k.className = 'kiss-animation';
+  k.innerText = '💋';
+  document.body.appendChild(k);
+  setTimeout(()=>k.remove(), 2500);
+  setTimeout(()=>{
+    document.getElementById('winMessage').innerText = winMessages[Math.floor(Math.random()*winMessages.length)];
+    document.getElementById('winLevel').innerText = currentLevel;
+    showScreen('winScreen');
+  }, 1800);
+}
+
+// ========== اختيار مكان القبلة (عند الفوز) ==========
+function chooseKissPlace(p) {
+  const msg = `💖 فاطمة فازت في اللعبة: ${gameNames[currentGame]}\n🎯 المرحلة: ${currentLevel}\n💋 مكان  القبلة: ${kissPlaces[p]}`;
+  document.getElementById('confirmText').innerText = `اختيارك: ${kissPlaces[p]} 💋`;
+  showScreen('confirmScreen');
+  sendToTelegram(msg);
+}
+
+function showCustomKiss() {
+  document.getElementById('customKissArea').style.display = 'block';
+}
+
+function submitCustomKiss() {
+  const custom = document.getElementById('customKissInput').value.trim();
+  if (!custom) { alert('اكتبي شي أول 💋'); return; }
+  const msg = `💖 فاطمة فازت في اللعبة: ${gameNames[currentGame]}\n🎯 المرحلة: ${currentLevel}\n✨ مكان القبلة المخصص: ${custom}`;
+  document.getElementById('confirmText').innerText = `اختيارك: ${custom} 💋`;
+  showScreen('confirmScreen');
+  sendToTelegram(msg);
+}
+
+// ========== المرحلة التالية ==========
+function nextLevel() {
+  document.getElementById('customKissArea').style.display = 'none';
+  document.getElementById('customKissInput').value = '';
+  
+  if (currentLevel < 100) {
+    currentLevel++;
+    playLevel();
+  } else {
+    // انتهت اللعبة - ننتقل للعبة جديدة
+    if (currentGame < 5) {
+      currentGame++;
+      currentLevel = 1;
+      playLevel();
+    } else {
+      // انتهت كل الألعاب
+      currentGame = 1;
+      currentLevel = 1;
+      showScreen('gamesScreen');
+    }
+  }
+}
+
+// ========== النافذة المنبثقة كل 4 دقائق ==========
+function startModalTimer() {
+  stopModalTimer();
+  // 4 دقائق = 240,000 مللي ثانية
+  modalTimer = setInterval(showKissModal, 240000);
+}
+
+function stopModalTimer() {
+  if (modalTimer) { clearInterval(modalTimer); modalTimer = null; }
+}
+
+function showKissModal() {
+  document.getElementById('kissModal').classList.add('active');
+  document.getElementById('modalCustomArea').style.display = 'none';
+  document.getElementById('modalCustomInput').value = '';
+}
+
+function hideKissModal() {
+  document.getElementById('kissModal').classList.remove('active');
+}
+
+function modalChooseKiss(p) {
+  const msg = `🔥 عقيل يطلب قبلة!\n💋 فاطمة اختارت: ${kissPlaces[p]}`;
+  sendToTelegram(msg);
+  hideKissModal();
+}
+
+function showModalCustom() {
+  document.getElementById('modalCustomArea').style.display = 'block';
+}
+
+function submitModalCustom() {
+  const custom = document.getElementById('modalCustomInput').value.trim();
+  if (!custom) { alert('اكتبي شي أول 💋'); return; }
+  const msg = `🔥 عقيل يطلب قبلة!\n✨ فاطمة اختارت مكان مخصص: ${custom}`;
+  sendToTelegram(msg);
+  hideKissModal();
+}
+
+// ========== إرسال إلى تليجرام ==========
+async function sendToTelegram(text) {
+  if (TELEGRAM_BOT_TOKEN==="PUT_YOUR_BOT_TOKEN_HERE") return;
+  try {
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    await fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({chat_id: TELEGRAM_CHAT_ID, text: text})
+    });
+  } catch(e) { console.log('Error:', e); }
+}
+</script>
+</body>
+</html>
